@@ -33,9 +33,14 @@ public class PetMethods {
 
     public int getPetWithId() {
         response = given()
-                .basePath("/" + id)
-                .get();
+                .get(id);
         responsePetBody = response.getBody().as(Pet.class);
+        return response.getStatusCode();
+    }
+
+    public int deletePet() {
+        response = given()
+                .delete(id);
         return response.getStatusCode();
     }
 
@@ -50,5 +55,13 @@ public class PetMethods {
 
     public boolean bodyContainsResponse() {
         return Arrays.stream(pets).anyMatch(pet -> pet.equals(responsePetBody));
+    }
+
+    public boolean requestEqualResponse() {
+        return requestPetBody.equals(responsePetBody);
+    }
+
+    public void changeId(String id) {
+        PetMethods.id += id;
     }
 }
